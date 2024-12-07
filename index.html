@@ -1,0 +1,880 @@
+<html><head><base href="ourcommunity.agency">
+<title>Community in Unity</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script> 
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+:root {
+  --primary: #2C5282; /* Deep blue */
+  --secondary: #4299E1; /* Medium blue */
+  --background: #F7FAFC; /* Light gray-blue */
+  --text: #2D3748; /* Dark gray-blue */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: var(--background);
+  color: var(--text);
+}
+
+.header {
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  padding: 0.75rem 1rem;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+}
+
+.nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  height: 40px;
+  width: auto;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.nav-link:hover {
+  background: var(--secondary);
+  color: white;
+}
+
+.main {
+  margin-top: 5rem;
+  min-height: calc(100vh - 5rem);
+}
+
+.hero {
+  background: linear-gradient(
+    rgba(44, 82, 130, 0.95), 
+    rgba(66, 153, 225, 0.9)
+  ), url('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 8rem 2rem;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.hero p {
+  font-size: 1.4rem;
+  max-width: 800px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+}
+
+.section {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: var(--primary);
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  border: 1px solid var(--secondary);
+}
+
+.card h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.card p {
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.footer {
+  background: var(--primary);
+  color: white;
+  padding: 2rem;
+  margin-top: 4rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  color: white;
+  text-decoration: none;
+}
+
+/* Admin Panel Styles */
+.admin-panel {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: 100vh;
+}
+
+.admin-sidebar {
+  background: var(--primary);
+  color: white;
+  padding: 2rem;
+}
+
+.admin-content {
+  padding: 2rem;
+}
+
+.admin-menu {
+  list-style: none;
+}
+
+.admin-menu-item {
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-menu-item:hover {
+  background: var(--secondary);
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #CBD5E0;
+  border-radius: 0.5rem;
+}
+
+.form-button {
+  background: var(--primary);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.form-button:hover {
+  background: var(--secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.whatsapp-icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.shop-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.cart-widget {
+  position: relative;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: transform 0.2s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-details {
+  padding: 1.5rem;
+}
+
+.product-price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--primary);
+  margin: 1rem 0;
+}
+
+.add-to-cart-button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.add-to-cart-button:hover {
+  background: var(--secondary);
+  transform: translateY(-2px);
+}
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+const App = () => {
+  const [currentPage, setCurrentPage] = React.useState('home');
+  const [isAdmin, setIsAdmin] = React.useState(false);
+  const room = new WebsimSocket();
+
+  React.useEffect(() => {
+    room.onmessage = (event) => {
+      const data = event.data;
+      console.log('Received message:', data);
+    };
+
+    const initializeProducts = async () => {
+      const products = await room.collection('shop_product').getList();
+      if (products.length === 0) {
+        const sampleProducts = [
+          {
+            title: "Community T-Shirt",
+            description: "Show your support with our branded t-shirt",
+            price: 299.99,
+            imageUrl: "https://images.websim.ai/products/tshirt.jpg"
+          },
+          {
+            title: "Unity Mug",
+            description: "Start your day with our inspiring coffee mug",
+            price: 149.99,
+            imageUrl: "https://images.websim.ai/products/mug.jpg"
+          },
+          {
+            title: "Digital Learning Package",
+            description: "Access to premium educational content",
+            price: 499.99,
+            imageUrl: "https://images.websim.ai/products/education.jpg"
+          }
+        ];
+
+        for (const product of sampleProducts) {
+          await room.collection('shop_product').create(product);
+        }
+      }
+    };
+
+    initializeProducts();
+  }, []);
+
+  const renderContent = () => {
+    switch(currentPage) {
+      case 'home':
+        return <HomePage />;
+      case 'blog':
+        return <BlogSection room={room} />;
+      case 'earn':
+        return <EarnSection />;
+      case 'shop':
+        return <ShopSection room={room} />;
+      case 'jobs':
+        return <JobsSection />;
+      case 'forum':
+        return <ForumSection room={room} />;
+      case 'news':
+        return <NewsSection room={room} />;
+      case 'contact':
+        return <ContactSection />;
+      default:
+        return <HomePage />;
+    }
+  };
+
+  return (
+    <>
+      <header className="header">
+        <nav className="nav">
+          <div className="logo">
+            <img src="/logo.png" alt="Community in Unity" className="logo-image" />
+          </div>
+          <div className="nav-links">
+            <a href="#" className="nav-link" onClick={() => setCurrentPage('home')}>Home</a>
+            <a href="#" className="nav-link" onClick={() => setCurrentPage('blog')}>Blog</a>
+            <a href="#" className="nav-link" onClick={() => setCurrentPage('earn')}>How to Earn</a>
+            <a href="#" className="nav-link" onClick={() => setCurrentPage('shop')}>Shop</a>
+            <a href="#" className="nav-link" onClick={() => setCurrentPage('jobs')}>Jobs</a>
+            <a href="#" className="nav-link" onClick={() => setCurrentPage('forum')}>Forum</a>
+            <a href="#" className="nav-link" onClick={() => setCurrentPage('news')}>News</a>
+            <a href="#" className="nav-link" onClick={() => setCurrentPage('contact')}>Contact</a>
+            <a href="#" className="nav-link" onClick={() => setIsAdmin(!isAdmin)}>
+              {isAdmin ? 'Exit Admin' : 'Admin'}
+            </a>
+          </div>
+        </nav>
+      </header>
+
+      <main className="main">
+        {renderContent()}
+      </main>
+
+      <footer className="footer">
+        <div className="footer-content">
+          <div>
+            <h3>Community in Unity</h3>
+            <p>Building stronger communities together</p>
+          </div>
+          <div className="social-links">
+            <a href="https://www.facebook.com/communityinunityza?mibextid=ZbWKwL" 
+               className="social-link"
+               target="_blank"
+               rel="noopener noreferrer">
+              Facebook
+            </a>
+            <a href="https://instagram.com" className="social-link">Instagram</a>
+            <a href="https://youtube.com" className="social-link">YouTube</a>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
+};
+
+const HomePage = () => (
+  <>
+    <section className="hero">
+      <h1>Welcome to Our Community in Unity</h1>
+      <p>
+        At Our Community in Unity, we are committed to bringing individuals together by providing 
+        accessible education, job opportunities, and resources to foster growth and empowerment. 
+        Our mission is to make a positive impact by offering a platform for learning, collaboration, 
+        and community development.
+      </p>
+      <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+        <a href="https://donate.ourcommunity.agency" className="cta-button">Donate Now</a>
+        <a href="tel:0687888793" className="cta-button" style={{ background: 'white', color: 'var(--primary)' }}>
+          <svg className="whatsapp-icon" viewBox="0 0 24 24" width="24" height="24" style={{ marginRight: '8px' }}>
+            <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          0687888793
+        </a>
+      </div>
+    </section>
+    
+    <section className="section">
+      <h2>What You Can Expect from Our Site</h2>
+      <div className="grid">
+        <div className="card">
+          <h3>Educational Resources</h3>
+          <p>Explore a range of training videos, tutorials, and job search tips that will guide you 
+             towards success.</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '1rem' }}>
+            <a href="https://alison.com/certificate-courses?utm_source=alison_user&utm_medium=affiliates&utm_campaign=17245790" 
+               className="cta-button" 
+               style={{ fontSize: '0.9rem' }}
+               target="_blank"
+               rel="noopener noreferrer">
+              Browse Certificate Courses
+            </a>
+            <a href="https://alison.com/careers?utm_source=alison_user&utm_medium=affiliates&utm_campaign=17245790" 
+               className="cta-button" 
+               style={{ fontSize: '0.9rem' }}
+               target="_blank"
+               rel="noopener noreferrer">
+              Career Guide
+            </a>
+            <a href="https://alison.com/resume-builder?utm_source=alison_user&utm_medium=affiliates&utm_campaign=17245790" 
+               className="cta-button" 
+               style={{ fontSize: '0.9rem' }}
+               target="_blank"
+               rel="noopener noreferrer">
+              Resume Builder
+            </a>
+          </div>
+        </div>
+        <div className="card">
+          <h3>Job Alerts</h3>
+          <p>Stay updated with the latest job openings and career opportunities tailored to your 
+             skills and interests.</p>
+        </div>
+        <div className="card">
+          <h3>Affiliate Branding</h3>
+          <p>Learn how to effectively market products and services through our affiliate links, 
+             and discover how you can grow your own business.</p>
+        </div>
+        <div className="card">
+          <h3>Support & Donations</h3>
+          <p>Join our mission by contributing to our cause through donations, helping us continue 
+             to provide resources and opportunities to the community.</p>
+        </div>
+      </div>
+    </section>
+
+    <section className="section" style={{ textAlign: 'center' }}>
+      <h2>Get Involved Today</h2>
+      <p style={{ maxWidth: '800px', margin: '2rem auto', fontSize: '1.2rem', lineHeight: '1.6' }}>
+        We believe that together, we can create a more connected, educated, and thriving community. 
+        Thank you for being a part of this journey.
+      </p>
+      <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center', marginTop: '2rem' }}>
+        <div className="card" style={{ maxWidth: '300px' }}>
+          <h3>Support Our Mission</h3>
+          <p>Your donation helps fund educational programs and community initiatives.</p>
+          <a href="https://donate.ourcommunity.agency" className="cta-button" 
+             style={{ display: 'inline-block', marginTop: '1rem' }}>
+            Donate Now
+          </a>
+        </div>
+        <div className="card" style={{ maxWidth: '300px' }}>
+          <h3>Contact Us</h3>
+          <p>Connect with our team through WhatsApp for immediate assistance.</p>
+          <a href="tel:0687888793" className="cta-button" 
+             style={{ display: 'inline-block', marginTop: '1rem', background: 'white', color: 'var(--primary)' }}>
+            <svg className="whatsapp-icon" viewBox="0 0 24 24" width="24" height="24" style={{ marginRight: '8px' }}>
+              <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            0687888793
+          </a>
+        </div>
+      </div>
+    </section>
+  </>
+);
+
+const BlogSection = ({ room }) => {
+  const posts = React.useSyncExternalStore(
+    room.collection('blog_post').subscribe,
+    room.collection('blog_post').getList
+  );
+
+  const [newPost, setNewPost] = React.useState({ title: '', content: '' });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await room.collection('blog_post').create(newPost);
+    setNewPost({ title: '', content: '' });
+  };
+
+  return (
+    <div className="section">
+      <h2>The Community Journal</h2>
+      
+      <form onSubmit={handleSubmit} className="card">
+        <div className="form-group">
+          <label className="form-label">Title</label>
+          <input
+            className="form-input"
+            value={newPost.title}
+            onChange={e => setNewPost({...newPost, title: e.target.value})}
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Content</label>
+          <textarea
+            className="form-input"
+            value={newPost.content}
+            onChange={e => setNewPost({...newPost, content: e.target.value})}
+          />
+        </div>
+        <button type="submit" className="form-button">Create Post</button>
+      </form>
+
+      <div className="grid">
+        {posts.map(post => (
+          <div key={post.id} className="card">
+            <h3>{post.title}</h3>
+            <p>{post.content}</p>
+            <small>Posted by {post.username}</small>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const ForumSection = ({ room }) => {
+  const threads = React.useSyncExternalStore(
+    room.collection('forum_thread').subscribe,
+    room.collection('forum_thread').getList
+  );
+
+  const [newThread, setNewThread] = React.useState({ title: '', content: '' });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await room.collection('forum_thread').create(newThread);
+    setNewThread({ title: '', content: '' });
+  };
+
+  return (
+    <div className="section">
+      <h2>Community Conversations</h2>
+      
+      <form onSubmit={handleSubmit} className="card">
+        <div className="form-group">
+          <label className="form-label">Thread Title</label>
+          <input
+            className="form-input"
+            value={newThread.title}
+            onChange={e => setNewThread({...newThread, title: e.target.value})}
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Content</label>
+          <textarea
+            className="form-input"
+            value={newThread.content}
+            onChange={e => setNewThread({...newThread, content: e.target.value})}
+          />
+        </div>
+        <button type="submit" className="form-button">Create Thread</button>
+      </form>
+
+      <div className="grid">
+        {threads.map(thread => (
+          <div key={thread.id} className="card">
+            <h3>{thread.title}</h3>
+            <p>{thread.content}</p>
+            <small>Posted by {thread.username}</small>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const AdminPanel = ({ room }) => {
+  const [section, setSection] = React.useState('dashboard');
+  
+  return (
+    <div className="admin-panel">
+      <div className="admin-sidebar">
+        <h2>Admin Panel</h2>
+        <ul className="admin-menu">
+          <li className="admin-menu-item" onClick={() => setSection('dashboard')}>Dashboard</li>
+          <li className="admin-menu-item" onClick={() => setSection('blog')}>Blog Management</li>
+          <li className="admin-menu-item" onClick={() => setSection('forum')}>Forum Management</li>
+          <li className="admin-menu-item" onClick={() => setSection('shop')}>Shop Management</li>
+          <li className="admin-menu-item" onClick={() => setSection('users')}>User Management</li>
+        </ul>
+      </div>
+      <div className="admin-content">
+        <h2>{section.charAt(0).toUpperCase() + section.slice(1)}</h2>
+        {/* Add specific admin section content here */}
+      </div>
+    </div>
+  );
+};
+
+const EarnSection = () => (
+  <div className="section">
+    <h2>Empower Your Future</h2>
+    <div className="grid">
+      <div className="card">
+        <h3>Affiliate Program</h3>
+        <p>Join our affiliate program and earn through partnerships.</p>
+      </div>
+      <div className="card">
+        <h3>Content Creation</h3>
+        <p>Create valuable content and earn rewards.</p>
+      </div>
+      <div className="card">
+        <h3>Community Building</h3>
+        <p>Earn by helping grow our community.</p>
+      </div>
+    </div>
+  </div>
+);
+
+const ShopSection = ({ room }) => {
+  const [activeStore, setActiveStore] = React.useState('all');
+
+  return (
+    <div className="section">
+      <h2>Community Marketplace</h2>
+      
+      <div className="store-tabs" style={{
+        display: 'flex',
+        gap: '1rem',
+        marginBottom: '2rem',
+        justifyContent: 'center'
+      }}>
+        <button 
+          className={`store-tab ${activeStore === 'amazon' ? 'active' : ''}`}
+          onClick={() => setActiveStore('amazon')}
+          style={{
+            padding: '0.75rem 1.5rem',
+            border: 'none',
+            borderRadius: '0.5rem',
+            background: activeStore === 'amazon' ? 'var(--primary)' : 'white',
+            color: activeStore === 'amazon' ? 'white' : 'var(--primary)',
+            cursor: 'pointer'
+          }}
+        >
+          Amazon Store
+        </button>
+        <button 
+          className={`store-tab ${activeStore === 'redbubble' ? 'active' : ''}`}
+          onClick={() => setActiveStore('redbubble')}
+          style={{
+            padding: '0.75rem 1.5rem',
+            border: 'none',
+            borderRadius: '0.5rem',
+            background: activeStore === 'redbubble' ? 'var(--primary)' : 'white',
+            color: activeStore === 'redbubble' ? 'white' : 'var(--primary)',
+            cursor: 'pointer'
+          }}
+        >
+          Redbubble Store
+        </button>
+        <button 
+          className={`store-tab ${activeStore === 'temu' ? 'active' : ''}`}
+          onClick={() => setActiveStore('temu')}
+          style={{
+            padding: '0.75rem 1.5rem',
+            border: 'none',
+            borderRadius: '0.5rem',
+            background: activeStore === 'temu' ? 'var(--primary)' : 'white',
+            color: activeStore === 'temu' ? 'white' : 'var(--primary)',
+            cursor: 'pointer'
+          }}
+        >
+          Temu Store
+        </button>
+      </div>
+
+      <div className="store-content" style={{ textAlign: 'center' }}>
+        {activeStore === 'amazon' && (
+          <div>
+            <h3>Amazon Products</h3>
+            <p>Browse our curated Amazon products</p>
+            <a href="https://amzn.to/3Bkcka7" 
+               className="cta-button"
+               target="_blank"
+               rel="noopener noreferrer"
+               style={{ marginTop: '1rem' }}>
+              Visit Amazon Store
+            </a>
+          </div>
+        )}
+        
+        {activeStore === 'redbubble' && (
+          <div>
+            <h3>Redbubble Products</h3>
+            <p>Custom designs and merchandise</p>
+            <a href="https://www.redbubble.com/people/CamOFlage/shop?asc=u" 
+               className="cta-button"
+               target="_blank"
+               rel="noopener noreferrer"
+               style={{ marginTop: '1rem' }}>
+              Visit Redbubble Store
+            </a>
+          </div>
+        )}
+        
+        {activeStore === 'temu' && (
+          <div>
+            <h3>Temu Products</h3>
+            <p>Affordable quality products</p>
+            <a href="https://temu.to/m/u446uf2wqmi" 
+               className="cta-button"
+               target="_blank"
+               rel="noopener noreferrer"
+               style={{ marginTop: '1rem' }}>
+              Visit Temu Store
+            </a>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const JobsSection = () => {
+  const [jobs, setJobs] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    setLoading(false);
+    setJobs([
+      { 
+        title: "Job listings coming soon!", 
+        description: "We're working on bringing you the latest job opportunities." 
+      }
+    ]);
+  }, []);
+
+  if (loading) return <div>Loading jobs...</div>;
+  if (error) return <div>Error loading jobs: {error}</div>;
+
+  return (
+    <div className="section">
+      <h2>Job Opportunities</h2>
+      <div className="grid">
+        {jobs.map((job, index) => (
+          <div key={index} className="card">
+            <h3>{job.title}</h3>
+            <p>{job.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const NewsSection = () => (
+  <div className="section">
+    <h2>Community News Feed</h2>
+    <div className="grid">
+      {/* Add news items here */}
+    </div>
+  </div>
+);
+
+const ContactSection = () => (
+  <div className="section">
+    <h2>Contact Us</h2>
+    <form className="card">
+      <div className="form-group">
+        <label className="form-label">Name</label>
+        <input className="form-input" type="text" />
+      </div>
+      <div className="form-group">
+        <label className="form-label">Email</label>
+        <input className="form-input" type="email" />
+      </div>
+      <div className="form-group">
+        <label className="form-label">Message</label>
+        <textarea className="form-input"></textarea>
+      </div>
+      <button type="submit" className="form-button">Send Message</button>
+    </form>
+  </div>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+
+</body>
+</html>
